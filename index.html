@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PEM cross-attention is an efficient alternative to standard cross-attention in image segmentation.">
+  <meta name="keywords" content="PEM, Efficient, Segmentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PEM: Prototype-based Efficient MaskFormer for Image Segmentation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">PEM: Prototype-based Efficient MaskFormer for Image Segmentation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=Pr4XHRAAAAAJ">Niccolò Cavagnero</a><sup>1</sup><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=8AfX1GcAAAAJ">Gabriele Rosi</a><sup>1,2</sup><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=W7lNKNsAAAAJ">Claudia Cuttano</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=7MJdvzYAAAAJ">Francesca Pistilli</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=hOQjblcAAAAJ">Marco Ciccone</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=i4rm0tYAAAAJ">Giuseppe Averta</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://fcdl94.github.io/">Fabio Cermelli</a><sup>1,2</sup>
+            </span>
+          </div>
+
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Politecnico di Torino,</span>
+            <span class="author-block"><sup>2</sup>Focoos AI</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal Contribution</span>
+          </div>
+
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><b style="color:#e08ba0; font-weight:normal"> <b>CVPR 2024</b> </b></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2402.19422"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2402.19422"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/NiccoloCavagnero/PEM"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure>
+        <img src="./static/images/architecture.png" alt="PEM architecture scheme.">
+        <figcaption>Figure 1. <b>Architecture of PEM</b> with the three main components highlighted: backbone, pixel decoder and transformer decoder. 
+          The backbone extracts features from the input image; the pixel decoder provides features upsampling to extract high-resolution features; 
+          the transformer decoder, which takes as input a set of learnable queries and the high-resolution features to produce refined queries for inference.</figcaption>
+      </figure>
+      <br>
+      <br>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent transformer-based architectures have shown impressive results in the field of image segmentation. 
+            Thanks to their flexibility, they obtain outstanding performance in multiple segmentation tasks, such as semantic and panoptic, 
+            under a single unified framework. To achieve such impressive performance, these architectures employ intensive operations and 
+            require substantial computational resources, which are often not available, especially on edge devices. 
+            To fill this gap, <b>we propose Prototype-based Efficient MaskFormer (PEM), an efficient transformer-based architecture that can operate 
+            in multiple segmentation tasks</b>. PEM proposes a novel prototype-based cross-attention which leverages the redundancy of visual features 
+            to restrict the computation and improve the efficiency without harming the performance. In addition, PEM introduces an efficient 
+            multi-scale feature pyramid network, capable of extracting features that have high semantic content in an efficient way, thanks 
+            to the combination of deformable convolutions and context-based self-modulation. We benchmark the proposed PEM architecture on two tasks, 
+            semantic and panoptic segmentation, evaluated on two different datasets, Cityscapes and ADE20K. 
+            PEM demonstrates outstanding performance on every task and dataset, outperforming task-specific architectures while being comparable and 
+            even better than computationally-expensive baselines. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+
+<section class="section" style="padding-bottom: 1rem;">
+  <div class="container is-max-desktop">
+
+    <!-- PEM-CA. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Model</h2>
+
+        <h3 class="title is-4">Prototype-based Masked Cross-Attention</h3>
+        <div class="content has-text-justified">
+          <p>
+            The core component of PEM is our novel <b>Prototype-based Masked Cross-Attention (PEM-CA)</b>. 
+            PEM-CA is an more efficient alternative to standard cross-attention operation in image segmentation.
+
+            <br>
+            Two main enhancements are introduced in PEM-CA:
+            <ul>
+              <li>First, PEM-CA capitalizes on the intrinsic redundancy of visual features in segmentation to significantly reduce the number of input tokens 
+                in attention layers through a prototype selection mechanism. Indeed, during training, features related to the same segment naturally align 
+                and we can therefore exploit this redundancy to process only a subset of the visual tokens.</li>
+              <li>Second, inspired by recent advancements in the efficiency of attention modules, PEM-CA redesigns the cross-attention operation, modeling interactions by means of 
+                computationally cheap element-wise operations.</li>
+            </ul>
+            
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <figure>
+            <img src="./static/images/protoCA.png" alt="Prototype-based Masked Cross-Attention scheme image.">
+            <figcaption>Figure 2. <b>Scheme of the proposed Prototype-based Masked Cross-Attention.</b> The prototype selection mechanism reduces the 
+              token dimension from HW to N, the number of queries, significantly reducing the computational burden.</figcaption>
+          </figure>
+        </div>
+
+        <h3 class="title is-4">Efficient Multi-scale pixel decoder</h3>
+        <div class="content has-text-justified">
+          <p>
+            The pixel decoder covers a fundamental role in extracting multi-scale features which allow a precise segmentation of the objects. 
+            Mask2Former implements it as a feature pyramid network (FPN) enhanced with deformable attention.
+            However, ssing deformable attention upon an FPN introduces a computation overhead that makes the pixel decoder inefficient and unsuitable for real-world applications. 
+            To maintain the performance while being computationally efficient, we use a fully convolutional FPN where we restore the benefits of deformable attention 
+            by leveraging two key techniques. 
+            <br>
+            First, to reintroduce the global context (i) and the dynamic weights (ii), we implement context-based self-modulation (CSM) modules that 
+            adjust the input channels using a global scene representation. Moreover, to enable deformability (iii), we adopt deformable convolutions 
+            that focus on relevant regions of the image by dynamically adapt the receptive field. This dual approach yields competitive performance while 
+            preserving the computational efficiency. 
+          </p>
+        </div>
+        
+        <br/>
+      </div>
+    </div>
+    <!--/ PEM-CA. -->
+  </div>
+</section>
+
+
+<section class="section" style="padding-top: 0px;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Results</h2>
+
+    <!-- Panoptic results. -->
+    <div class="column is-full-width" style="padding-left: 0;">
+      <h2 class="title is-4">Panoptic Segmentation</h2>
+      <div class="columns is-centered">
+        <div class="column">
+          <h2 class="title is-4">Cityscapes</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <img src="./static/images/results_cityscapes_pan.png" alt="cityscapes panoptic results table." style="max-width: 95%;">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <h2 class="title is-4">ADE20K</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <img src="./static/images/results_ade20k_pan.png" alt="ade20k panoptic results table.">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Panoptic results. -->
+
+      <br>
+      
+      <!-- Semantic results. -->
+      <h3 class="title is-4">Semantic Segmentation</h3>
+      <div class="columns is-centered">
+        <div class="column">
+          <h2 class="title is-4">Cityscapes</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <img src="./static/images/results_cityscapes_sem.png" alt="cityscapes panoptic results table."  style="max-width: 97%;">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <h2 class="title is-4">ADE20K</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <img src="./static/images/results_ade20k_sem.png" alt="ade20k panoptic results table.">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Semantic results. -->
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{cavagnero2024pem,
+    title   = {PEM: Prototype-based Efficient MaskFormer for Image Segmentation},
+    author  = {Cavagnero, Niccol{\`o} and Rosi, Gabriele and Cuttano, Claudia and Pistilli, Francesca and Ciccone, Marco and Averta, Giuseppe and Cermelli, Fabio},
+    journal = {CVPR},
+    year    = {2024}
+}</code></pre>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgements</h2>
+    <p>
+      This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed under a 
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
