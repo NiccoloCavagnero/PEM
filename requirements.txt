@@ -1,0 +1,6 @@
+gdown
+scipy
+shapely
+opencv-python
+git+https://github.com/cocodataset/panopticapi.git
+git+https://github.com/mcordts/cityscapesScripts.git

@@ -1,0 +1,7 @@
+_BASE_: pem_R50_bs32_90k.yaml
+MODEL:
+  BACKBONE:
+    NAME: "D2STDCnet"
+  STDC:
+    LAYERS: [4,5,3]
+  WEIGHTS: "./pretrained_models/STDC2.pkl"
