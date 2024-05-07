@@ -40,7 +40,6 @@ pip install -e .
 cd ..
 pip install -r requirements.txt
 ```
-**N.B.** Install detectron2 from our repository otherwise you will get an error with deformable convolutions.
 
 ## Data preparation
 
