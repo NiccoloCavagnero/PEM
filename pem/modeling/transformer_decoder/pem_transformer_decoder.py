@@ -148,8 +148,8 @@ class PEM_CA(nn.Module):
     def __init__(self, d_model=256, nhead=8):
         super().__init__()
 
-        self.to_query = LocalRepresentation(d_model)
-        self.to_key = nn.Sequential(nn.LayerNorm(d_model),
+        self.feature_proj = LocalRepresentation(d_model)
+        self.query_proj = nn.Sequential(nn.LayerNorm(d_model),
                                     nn.Linear(d_model, d_model))
 
         self.proj = nn.Linear(d_model, d_model)
@@ -186,25 +186,25 @@ class PEM_CA(nn.Module):
         # Gather most similar tokens
         return torch.gather(x, 2, most_similar_indices.unsqueeze(-1).expand(-1, -1, -1, D)).permute(0, 2, 1, 3).reshape(B, Q, C)
 
-    def forward(self, q, x, memory_mask, pos, query_pos):
-        res = q
+    def forward(self, tgt, memory, memory_mask, pos, query_pos):
+        res = tgt
 
         # Add positional embeddings to input tensors
-        x, q = self.with_pos_embed(x, pos), self.with_pos_embed(q, query_pos)
+        memory, tgt = self.with_pos_embed(memory, pos), self.with_pos_embed(tgt, query_pos)
 
-        # Convert inputs to query and key representations
-        query = self.to_query(x)  # BxDxHxW
-        key = self.to_key(q.permute(1, 0, 2))  # BxQxD
+        # Project input tensors
+        memory = self.feature_proj(memory)  # BxDxHxW
+        tgt = self.query_proj(tgt.permute(1, 0, 2))  # BxQxD
 
-        # Normalize query and key vectors
-        query = torch.nn.functional.normalize(query, dim=-1)
-        key = torch.nn.functional.normalize(key, dim=-1)
+        # Normalize input tensors
+        memory = torch.nn.functional.normalize(memory, dim=-1)
+        tgt = torch.nn.functional.normalize(tgt, dim=-1)
 
-        # Find most similar tokens
-        query = self.most_similar_tokens(query, key, memory_mask)  # BxQxD
+        # Find the most similar feature token to each query
+        memory = self.most_similar_tokens(memory, tgt, memory_mask)  # BxQxD
 
         # Perform attention mechanism with projection and scaling
-        out = nn.functional.normalize(self.proj(query * key), dim=1) * self.alpha + query  # BxQxD
+        out = nn.functional.normalize(self.proj(memory * tgt), dim=1) * self.alpha + memory  # BxQxD
 
         # Final linear transformation
         out = self.final(out)  # BxQxD

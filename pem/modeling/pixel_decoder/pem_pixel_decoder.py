@@ -124,11 +124,8 @@ class DeformLayer(nn.Module):
         offset_x, offset_y, mask = torch.chunk(offset_mask, 3, dim=1)
         offset = torch.cat((offset_x, offset_y), dim=1)
         mask = mask.sigmoid()
-        out, offset, mask = out.half(), offset.half(), mask.half()
         x = self.dcn(out, offset, mask)
-        x = self.dcn_bn(x.to(self.dcn_bn.weight.dtype))
         x = self.relu(x)
-        #x = x.to(self.up_sample.weight.dtype)
 
         # Upsampling
         x_up = self.up_sample(x)
