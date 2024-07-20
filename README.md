@@ -45,7 +45,7 @@ For the dataset preparation, plese refer to the [Mask2Former guide](https://gith
 
 ## Training
 
-1. Before starting the training, you have to download the pretrained models for the backbone. The following commands will download the pretrained weights for STDC1 and STDC2 backbones (read more about [here](https://github.com/MichaelFan01/STDC-Seg)). For ResNet50, the pretrained weights are automatically download from the detectron2 repository.
+1. Before starting the training, you have to download the pretrained models for the backbone. The following commands will download the pretrained weights for STDC1 and STDC2 backbones (read more about [here](https://github.com/MichaelFan01/STDC-Seg)). For ResNet50, the pretrained weights are automatically downloaded from detectron2 repository.
 
     ```bash
     mkdir pretrained_models
