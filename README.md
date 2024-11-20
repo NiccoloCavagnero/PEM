@@ -106,11 +106,11 @@ python train_net.py --eval-only \
 If you find this project helpful for your research, please consider citing the following BibTeX entry.
 
 ```BibTeX
-@article{cavagnero2024pem,
-  title={PEM: Prototype-based Efficient MaskFormer for Image Segmentation},
-  author={Cavagnero, Niccol{\`o} and Rosi, Gabriele and Cuttano, Claudia and 
-  Pistilli, Francesca and Ciccone, Marco and Averta, Giuseppe and Cermelli, Fabio},
-  journal={arXiv preprint arXiv:2402.19422},
+@inproceedings{cavagnero2024pem,
+  title={Pem: Prototype-based efficient maskformer for image segmentation},
+  author={Cavagnero, Niccol{\`o} and Rosi, Gabriele and Cuttano, Claudia and Pistilli, Francesca and Ciccone, Marco and Averta, Giuseppe and Cermelli, Fabio},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={15804--15813},
   year={2024}
 }
 ```
