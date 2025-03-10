@@ -1,4 +1,4 @@
-# PEM: Prototype-based Efficient MaskFormer for Image Segmentation (CVPR 2024)
+# PEM: Prototype-based Efficient MaskFormer for Image Segmentation [CVPR 2024]
 
 > [Niccolò Cavagnero](https://scholar.google.com/citations?user=Pr4XHRAAAAAJ)\*, [Gabriele Rosi](https://scholar.google.com/citations?user=8AfX1GcAAAAJ)\*, [Claudia Cuttano](https://scholar.google.com/citations?user=W7lNKNsAAAAJ), [Francesca Pistilli](https://scholar.google.com/citations?user=7MJdvzYAAAAJ), [Marco Ciccone](https://scholar.google.com/citations?user=hOQjblcAAAAJ), [Giuseppe Averta](https://scholar.google.com/citations?user=i4rm0tYAAAAJ), [Fabio Cermelli](https://fcdl94.github.io/)
 >
